@@ -1325,6 +1325,18 @@ class Bitbucket(AtlassianRestAPI):
         )
         return self.get(url)
 
+    def search_code(self, team, search_query):
+        """
+        Search repositories for matching code
+        :team: str
+        :search_query: str
+        """
+        url = "{endpoint}/teams/{team}/search/code".format(
+            endpoint=self.endpoint_prefix(),
+            team=team
+        )
+        return self.get(url, params={'search_query': search_query})
+
     def delete_code_insights_report(self, project_key, repository_slug, commit_id, report_key):
         """
         Delete a report for the given commit. Also deletes any annotations associated with this report.

@@ -110,6 +110,31 @@ class AtlassianRestAPI(object):
             url_link += '/'
         return url_link
 
+    def endpoint_prefix(self, api_root=None, api_version=None):
+        """
+        Compute the prefix part of a given end point.
+        This will use the defaults set in the master class for api_root and api_version
+        and these can be overriden if necessary locally (for special cases).
+
+        This allows to use the class for both on premise installs (with api_root
+        set to rest/api and version set to 1.0 for bitbucket for example) and the
+        Saas (with api_root set to empty string/None and version set to 2.0).
+
+        :param api_root: str
+        :param api_version: str
+        :return: str
+        """
+        if api_root is None:
+            api_root = self.api_root
+        if api_version is None:
+            api_version = self.api_version
+        fragments = []
+        if api_root:
+            fragments.append(api_root)
+        if api_version:
+            fragments.append(api_version)
+        return '/'.join(s.strip('/') for s in fragments)
+
     def request(self, method='GET', path='/', data=None, flags=None, params=None, headers=None,
                 files=None, trailing=None):
         """
