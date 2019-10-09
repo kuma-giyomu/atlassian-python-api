@@ -1325,7 +1325,7 @@ class Bitbucket(AtlassianRestAPI):
         )
         return self.get(url)
 
-    def search_code(self, team, search_query):
+    def search_code(self, team, search_query, page=1, pagelen=10):
         """
         Search repositories for matching code
         :team: str
@@ -1335,7 +1335,7 @@ class Bitbucket(AtlassianRestAPI):
             endpoint=self.endpoint_prefix(),
             team=team
         )
-        return self.get(url, params={'search_query': search_query})
+        return self.get(url, params={'search_query': search_query, 'page': page, 'pagelen': pagelen})
 
     def delete_code_insights_report(self, project_key, repository_slug, commit_id, report_key):
         """
